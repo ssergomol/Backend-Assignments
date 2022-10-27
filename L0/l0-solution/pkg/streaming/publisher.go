@@ -12,7 +12,7 @@ func PublishDataToChannel() {
 	const (
 		clusterID = "test-cluster"
 		clientID  = "publisher"
-		dataFile  = "../../task/model.json"
+		dataFile  = "../task/model.json"
 	)
 
 	jsonFile, err := os.Open(dataFile)

@@ -1,6 +1,6 @@
 CREATE TABLE item(
     chrt_id INT PRIMARY KEY,
-    order_uid INT FOREIGN KEY REFERENCES orders(order_uid),
+    order_uid VARCHAR(50) REFERENCES orders(order_uid),
     track_number VARCHAR(50),
     price INT,
     rid VARCHAR(50),

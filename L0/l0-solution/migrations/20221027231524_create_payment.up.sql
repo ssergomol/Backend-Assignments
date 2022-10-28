@@ -1,6 +1,6 @@
 CREATE TABLE payment (
     transaction VARCHAR(50) PRIMARY KEY,
-    order_uid INT UNIQUE FOREIGN KEY REFERENCES order(order_uid),
+    order_uid INT UNIQUE FOREIGN KEY REFERENCES orders(order_uid),
     request_id VARCHAR(50),
     currency VARCHAR(8),
     provider VARCHAR(50),

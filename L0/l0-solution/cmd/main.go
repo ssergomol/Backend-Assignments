@@ -4,18 +4,27 @@ import (
 	"backend-assignments/l0/pkg/apiserver"
 	"backend-assignments/l0/pkg/streaming"
 	"log"
+	"sync"
 )
 
 func main() {
 	// Retrieve data from streaming server
 	streaming.PublishDataToChannel()
-	streaming.GetDataFromChannel()
+	data := streaming.GetDataFromChannel()
 
 	config := apiserver.NewConfig()
 	server := apiserver.NewServer(config)
 
-	if err := server.Start(); err != nil {
-		log.Fatal(err)
-	}
+	wg := sync.WaitGroup{}
+	wg.Add(1)
+	go func() {
+		if err := server.Start(); err != nil {
+			log.Fatal(err)
+		}
+		wg.Done()
+	}()
+
+	server.UpdateDatabase(data)
+	wg.Wait()
 
 }

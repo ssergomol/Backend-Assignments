@@ -10,5 +10,5 @@ CREATE TABLE item(
     total_price INT, 
     nm_id INT,
     brand VARCHAR(50),
-    status NUMERIC(3, 0)
+    status INT
 )

@@ -16,7 +16,7 @@ type JSONstructure struct {
 	Items    []models.Item   `json:"items"`
 }
 
-func GetDataFromChannel() {
+func GetDataFromChannel() JSONstructure {
 	const (
 		clusterID = "test-cluster"
 		clientID  = "subscriber"
@@ -34,21 +34,26 @@ func GetDataFromChannel() {
 		channel <- m.Data
 		wg.Done()
 	}, stan.StartWithLastReceived())
-	var data []byte
-	data = <-channel
-	UnmarshalJSON(data)
+	var rawData []byte
+	rawData = <-channel
 
 	wg.Wait()
 
 	sub.Unsubscribe()
+
+	data := UnmarshalJSON(rawData)
+	return data
 }
 
-func UnmarshalJSON(rawData []byte) {
+func UnmarshalJSON(rawData []byte) JSONstructure {
 	data := JSONstructure{}
 	json.Unmarshal(rawData, &data)
+
 	data.Delivery.OrderUID = data.OrderUID
 	data.Payment.OrderUID = data.OrderUID
 	for i := range data.Items {
 		data.Items[i].OrderUID = data.OrderUID
 	}
+
+	return data
 }

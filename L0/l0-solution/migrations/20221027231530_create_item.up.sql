@@ -1,0 +1,14 @@
+CREATE TABLE item(
+    chrt_id INT PRIMARY KEY,
+    order_uid INT FOREIGN KEY REFERENCES order(order_uid),
+    track_number VARCHAR(50),
+    price INT,
+    rid VARCHAR(50),
+    name VARCHAR(50),
+    sale INT,
+    size INT,
+    total_price INT, 
+    nm_id INT,
+    brand VARCHAR(50),
+    status NUMERIC(3, 0)
+)

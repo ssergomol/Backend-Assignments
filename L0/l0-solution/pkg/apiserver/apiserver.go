@@ -14,7 +14,7 @@ type APIserver struct {
 	router *mux.Router
 	logger *logrus.Logger
 	db     *database.Store
-	// database field
+	cache  map[string]streaming.JSONstructure
 }
 
 func NewServer(config *Config) *APIserver {
@@ -22,6 +22,7 @@ func NewServer(config *Config) *APIserver {
 		config: config,
 		router: mux.NewRouter(),
 		logger: logrus.New(),
+		cache:  make(map[string]streaming.JSONstructure),
 	}
 
 	server.configureDatabase()
@@ -66,6 +67,7 @@ func (server *APIserver) configureDatabase() error {
 }
 
 func (server *APIserver) UpdateDatabase(data streaming.JSONstructure) {
+	server.cache[data.OrderUID] = data
 	server.logger.Info("update database")
 	server.db.Order().Create(data.Order)
 	server.db.Payment().Create(data.Payment)

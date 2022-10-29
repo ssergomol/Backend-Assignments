@@ -1,6 +1,9 @@
 package database
 
-import "backend-assignments/l0/pkg/models"
+import (
+	"backend-assignments/l0/pkg/models"
+	"log"
+)
 
 type OrderRepo struct {
 	store *Store
@@ -15,4 +18,28 @@ func (repo *OrderRepo) Create(order models.Order) {
 		order.CustomerID, order.DeliveryService, order.ShardKey, order.SmID, order.DateCreated,
 		order.OofShard,
 	)
+}
+
+func (repo *OrderRepo) GetData() []models.Order {
+	rows, err := repo.store.db.Query("SELECT * from orders")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	orders := []models.Order{}
+	for rows.Next() {
+		order := models.Order{}
+		err := rows.Scan(&order)
+		if err != nil {
+			log.Fatal(err)
+		}
+		orders = append(orders, order)
+	}
+
+	err = rows.Err()
+	if err != nil {
+		log.Fatal()
+	}
+	return orders
 }

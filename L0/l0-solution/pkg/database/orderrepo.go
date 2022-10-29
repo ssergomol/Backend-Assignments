@@ -20,7 +20,7 @@ func (repo *OrderRepo) Create(order models.Order) {
 	)
 }
 
-func (repo *OrderRepo) GetData() []models.Order {
+func (repo *OrderRepo) GetAllData() []models.Order {
 	rows, err := repo.store.db.Query("SELECT * from orders")
 	if err != nil {
 		log.Fatal(err)

@@ -18,27 +18,14 @@ func (repo *DeliveryRepo) Create(delivery models.Delivery) {
 	)
 }
 
-func (repo *DeliveryRepo) GetData() []models.Delivery {
-	rows, err := repo.store.db.Query("SELECT * from delivery")
+func (repo *DeliveryRepo) GetDataByUID(order_uid string) models.Delivery {
+	delivery := models.Delivery{}
+	err := repo.store.db.QueryRow("SELECT * from delivery where order_uid = $1", order_uid).Scan(
+		&delivery.DeliveryID, &delivery.OrderUID, &delivery.Name, &delivery.Phone, &delivery.Zip,
+		&delivery.City, &delivery.Address, &delivery.Region, &delivery.Email,
+	)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer rows.Close()
-
-	deliveries := []models.Delivery{}
-	for rows.Next() {
-		delivery := models.Delivery{}
-		err := rows.Scan(&delivery.DeliveryID, &delivery.OrderUID, &delivery.Name, &delivery.Phone, &delivery.Zip,
-			&delivery.City, &delivery.Address, &delivery.Region, &delivery.Email)
-		if err != nil {
-			log.Fatal(err)
-		}
-		deliveries = append(deliveries, delivery)
-	}
-
-	err = rows.Err()
-	if err != nil {
-		log.Fatal()
-	}
-	return deliveries
+	return delivery
 }

@@ -20,28 +20,16 @@ func (repo *PaymentRepo) Create(payment models.Payment) {
 	)
 }
 
-func (repo *PaymentRepo) GetData() []models.Payment {
-	rows, err := repo.store.db.Query("SELECT * from payment")
+func (repo *PaymentRepo) GetDataByUID(order_uid string) models.Payment {
+	payment := models.Payment{}
+	err := repo.store.db.QueryRow("SELECT * from payment where order_uid = $1", order_uid).Scan(
+		&payment.Transaction, &payment.OrderUID, &payment.RequestID, &payment.Currency, &payment.Provider,
+		&payment.Amount, &payment.PaymentDT, &payment.Bank, &payment.DeliveryCost, &payment.GoodsTotal,
+		&payment.CustomFee,
+	)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer rows.Close()
 
-	payments := []models.Payment{}
-	for rows.Next() {
-		payment := models.Payment{}
-		err := rows.Scan(&payment.Transaction, &payment.OrderUID, &payment.RequestID, &payment.Currency, &payment.Provider,
-			&payment.Amount, &payment.PaymentDT, &payment.Bank, &payment.DeliveryCost, &payment.GoodsTotal,
-			&payment.CustomFee)
-		if err != nil {
-			log.Fatal(err)
-		}
-		payments = append(payments, payment)
-	}
-
-	err = rows.Err()
-	if err != nil {
-		log.Fatal()
-	}
-	return payments
+	return payment
 }

@@ -20,8 +20,8 @@ func (repo *ItemRepo) Create(item models.Item) {
 
 }
 
-func (repo *ItemRepo) GetData() []models.Item {
-	rows, err := repo.store.db.Query("SELECT * from item")
+func (repo *ItemRepo) GetDataByUID(order_uid string) []models.Item {
+	rows, err := repo.store.db.Query("SELECT * from item where order_uid = $1", order_uid)
 	if err != nil {
 		log.Fatal(err)
 	}

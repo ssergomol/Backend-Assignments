@@ -1,6 +1,9 @@
 package database
 
-import "backend-assignments/l0/pkg/models"
+import (
+	"backend-assignments/l0/pkg/models"
+	"log"
+)
 
 type DeliveryRepo struct {
 	store *Store
@@ -13,4 +16,29 @@ func (repo *DeliveryRepo) Create(delivery models.Delivery) {
 		delivery.DeliveryID, delivery.OrderUID, delivery.Name, delivery.Phone, delivery.Zip,
 		delivery.City, delivery.Address, delivery.Region, delivery.Email,
 	)
+}
+
+func (repo *DeliveryRepo) GetData() []models.Delivery {
+	rows, err := repo.store.db.Query("SELECT * from delivery")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	deliveries := []models.Delivery{}
+	for rows.Next() {
+		delivery := models.Delivery{}
+		err := rows.Scan(&delivery.DeliveryID, &delivery.OrderUID, &delivery.Name, &delivery.Phone, &delivery.Zip,
+			&delivery.City, &delivery.Address, &delivery.Region, &delivery.Email)
+		if err != nil {
+			log.Fatal(err)
+		}
+		deliveries = append(deliveries, delivery)
+	}
+
+	err = rows.Err()
+	if err != nil {
+		log.Fatal()
+	}
+	return deliveries
 }

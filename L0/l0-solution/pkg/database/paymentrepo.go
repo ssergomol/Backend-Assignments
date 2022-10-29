@@ -2,6 +2,7 @@ package database
 
 import (
 	"backend-assignments/l0/pkg/models"
+	"log"
 )
 
 type PaymentRepo struct {
@@ -17,4 +18,30 @@ func (repo *PaymentRepo) Create(payment models.Payment) {
 		payment.Amount, payment.PaymentDT, payment.Bank, payment.DeliveryCost, payment.GoodsTotal,
 		payment.CustomFee,
 	)
+}
+
+func (repo *PaymentRepo) GetData() []models.Payment {
+	rows, err := repo.store.db.Query("SELECT * from payment")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	payments := []models.Payment{}
+	for rows.Next() {
+		payment := models.Payment{}
+		err := rows.Scan(&payment.Transaction, &payment.OrderUID, &payment.RequestID, &payment.Currency, &payment.Provider,
+			&payment.Amount, &payment.PaymentDT, &payment.Bank, &payment.DeliveryCost, &payment.GoodsTotal,
+			&payment.CustomFee)
+		if err != nil {
+			log.Fatal(err)
+		}
+		payments = append(payments, payment)
+	}
+
+	err = rows.Err()
+	if err != nil {
+		log.Fatal()
+	}
+	return payments
 }

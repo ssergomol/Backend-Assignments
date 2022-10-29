@@ -30,7 +30,9 @@ func (repo *OrderRepo) GetData() []models.Order {
 	orders := []models.Order{}
 	for rows.Next() {
 		order := models.Order{}
-		err := rows.Scan(&order)
+		err := rows.Scan(&order.OrderUID, &order.TrackNumber, &order.Entry, &order.Locale, &order.InternalSignature,
+			&order.CustomerID, &order.DeliveryService, &order.ShardKey, &order.SmID, &order.DateCreated,
+			&order.OofShard)
 		if err != nil {
 			log.Fatal(err)
 		}

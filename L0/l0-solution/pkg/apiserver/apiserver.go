@@ -3,6 +3,7 @@ package apiserver
 import (
 	"backend-assignments/l0/pkg/database"
 	"backend-assignments/l0/pkg/streaming"
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -75,4 +76,13 @@ func (server *APIserver) UpdateDatabase(data streaming.JSONstructure) {
 	for _, item := range data.Items {
 		server.db.Item().Create(item)
 	}
+
+	orderList := server.db.Order().GetData()
+	paymnetsList := server.db.Payment().GetData()
+	deliveryList := server.db.Delivery().GetData()
+	itemsList := server.db.Item().GetData()
+	fmt.Println(orderList)
+	fmt.Println(paymnetsList)
+	fmt.Println(deliveryList)
+	fmt.Println(itemsList)
 }

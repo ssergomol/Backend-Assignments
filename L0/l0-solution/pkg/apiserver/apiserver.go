@@ -3,7 +3,6 @@ package apiserver
 import (
 	"backend-assignments/l0/pkg/database"
 	"backend-assignments/l0/pkg/streaming"
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -27,6 +26,7 @@ func NewServer(config *Config) *APIserver {
 	}
 
 	server.configureDatabase()
+	server.recoverCache()
 	return server
 }
 
@@ -76,13 +76,21 @@ func (server *APIserver) UpdateDatabase(data streaming.JSONstructure) {
 	for _, item := range data.Items {
 		server.db.Item().Create(item)
 	}
+}
 
-	orderList := server.db.Order().GetData()
-	paymnetsList := server.db.Payment().GetData()
-	deliveryList := server.db.Delivery().GetData()
-	itemsList := server.db.Item().GetData()
-	fmt.Println(orderList)
-	fmt.Println(paymnetsList)
-	fmt.Println(deliveryList)
-	fmt.Println(itemsList)
+func (server *APIserver) recoverCache() {
+	ordersList := server.db.Order().GetAllData()
+
+	for _, order := range ordersList {
+		paymnet := server.db.Payment().GetDataByUID(order.OrderUID)
+		delivery := server.db.Delivery().GetDataByUID(order.OrderUID)
+		items := server.db.Item().GetDataByUID(delivery.OrderUID)
+		combinedData := streaming.JSONstructure{
+			Order:    order,
+			Delivery: delivery,
+			Payment:  paymnet,
+			Items:    items,
+		}
+		server.cache[order.OrderUID] = combinedData
+	}
 }

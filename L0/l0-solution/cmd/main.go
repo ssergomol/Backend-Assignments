@@ -3,8 +3,9 @@ package main
 import (
 	"backend-assignments/l0/pkg/apiserver"
 	"backend-assignments/l0/pkg/streaming"
-	"log"
 	"sync"
+
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -19,7 +20,7 @@ func main() {
 	wg.Add(1)
 	go func() {
 		if err := server.Start(); err != nil {
-			log.Fatal(err)
+			logrus.Fatal(err)
 		}
 		wg.Done()
 	}()

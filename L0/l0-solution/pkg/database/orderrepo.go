@@ -3,6 +3,8 @@ package database
 import (
 	"backend-assignments/l0/pkg/models"
 	"log"
+
+	"github.com/sirupsen/logrus"
 )
 
 type OrderRepo struct {
@@ -23,7 +25,7 @@ func (repo *OrderRepo) Create(order models.Order) {
 func (repo *OrderRepo) GetAllData() []models.Order {
 	rows, err := repo.store.db.Query("SELECT * from orders")
 	if err != nil {
-		log.Fatal(err)
+		logrus.Fatal(err)
 	}
 	defer rows.Close()
 
@@ -34,7 +36,7 @@ func (repo *OrderRepo) GetAllData() []models.Order {
 			&order.CustomerID, &order.DeliveryService, &order.ShardKey, &order.SmID, &order.DateCreated,
 			&order.OofShard)
 		if err != nil {
-			log.Fatal(err)
+			logrus.Fatal(err)
 		}
 		orders = append(orders, order)
 	}

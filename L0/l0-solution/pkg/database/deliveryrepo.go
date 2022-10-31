@@ -2,7 +2,8 @@ package database
 
 import (
 	"backend-assignments/l0/pkg/models"
-	"log"
+
+	"github.com/sirupsen/logrus"
 )
 
 type DeliveryRepo struct {
@@ -25,7 +26,7 @@ func (repo *DeliveryRepo) GetDataByUID(order_uid string) models.Delivery {
 		&delivery.City, &delivery.Address, &delivery.Region, &delivery.Email,
 	)
 	if err != nil {
-		log.Fatal(err)
+		logrus.Fatal(err)
 	}
 	return delivery
 }

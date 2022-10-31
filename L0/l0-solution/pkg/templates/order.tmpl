@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Orders</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <h1>Order {{.OrderUID}}</h1>
+        <table class="table table-striped">
+            <tr>
+                <th> Track number </th>
+                <td> {{.TrackNumber}} </td>
+            </tr>
+            <tr>
+                <th> Entry </th>
+                <td> {{.Entry}} </td>
+            </tr>
+            <tr>
+                <th> Locale </th>
+                <td> {{.Locale}} </td>
+            </tr>
+            <tr>
+                <th> Internal signature </th>
+                <td> {{.InternalSignature}} </td>
+            </tr>
+            <tr>
+                <th> Customer ID </th>
+                <td> {{.CustomerID}} </td>
+            </tr>
+            <tr>
+                <th> Delivery service </th>
+                <td> {{.DeliveryService}} </td>
+            </tr>
+            <tr>
+                <th> Shard key </th>
+                <td> {{.ShardKey}} </td>
+            </tr>
+            <tr>
+                <th> SM ID </th>
+                <td> {{.SmID}} </td>
+            </tr>
+            <tr>
+                <th> Date created</th>
+                <td> {{.DateCreated}} </td>
+            </tr>
+            <tr>
+                <th> OOF shard </th>
+                <td> {{.OofShard}} </td>
+            </tr>
+        </table>
+        <table class="table table-striped" style="margin-left:40px;">
+            <h4> Delivery </h4>
+            <tr >
+                <th>Name</th>
+                <td>{{.Delivery.Name}}</td>
+            </tr>
+            <tr >
+                <th>Phone</th>
+                <td>{{.Delivery.Phone}}</td>
+            </tr>
+            <tr >
+                <th>Zip</th>
+                <td>{{.Delivery.Zip}}</td>
+            </tr>
+            <tr >
+                <th>City</th>
+                <td>{{.Delivery.City}}</td>
+            </tr>
+            <tr >
+                <th>Address</th>
+                <td>{{.Delivery.Address}}</td>
+            </tr>
+            <tr >
+                <th>Region</th>
+                <td>{{.Delivery.Region}}</td>
+            </tr>
+            <tr >
+                <th>Email</th>
+                <td>{{.Delivery.Email}}</td>
+            </tr>
+        </table>
+        <table class="table table-striped" style="margin-left:40px;">
+            <h4> Payment </h4>
+            <tr >
+                <th>Transaction</th>
+                <td>{{.Payment.Transaction}}</td>
+            </tr>
+            <tr >
+                <th>Request ID</th>
+                <td>{{.Payment.RequestID}}</td>
+            </tr>
+            <tr >
+                <th>Currency</th>
+                <td>{{.Payment.Currency}}</td>
+            </tr>
+            <tr >
+                <th>Provider</th>
+                <td>{{.Payment.Provider}}</td>
+            </tr>
+            <tr >
+                <th>Amount</th>
+                <td>{{.Payment.Amount}}</td>
+            </tr>
+            <tr >
+                <th>Payment DT</th>
+                <td>{{.Payment.PaymentDT}}</td>
+            </tr>
+            <tr >
+                <th>Bank</th>
+                <td>{{.Payment.Bank}}</td>
+            </tr>
+            <tr >
+                <th>DeliveryCost</th>
+                <td>{{.Payment.DeliveryCost}}</td>
+            </tr>
+            <tr >
+                <th>GoodsTotal</th>
+                <td>{{.Payment.GoodsTotal}}</td>
+            </tr>
+            <tr >
+                <th>CustomFee</th>
+                <td>{{.Payment.CustomFee}}</td>
+            </tr>
+        </table>
+
+        <table class="table table-striped" style="margin-left:40px;">
+            <h4> Items </h4>
+            
+            {{ range $item := .Items}}
+                <table class="table table-striped" style="margin-left:80px;">
+                    <h5  style="margin-left:40px;"> Chrt ID {{$item.ChrtID }}</h5>
+              
+                <tr> 
+                    <th>
+                        Track number
+                    </th>
+                    <td>
+                        {{ $item.TrackNumber }}
+                    </td>
+                </tr>
+                <tr> 
+                    <th>
+                        Price
+                    </th>
+                    <td>
+                        {{ $item.Price }}
+                    </td>
+                </tr>
+                <tr> 
+                    <th>
+                        Rid
+                    </th>
+                    <td>
+                        {{ $item.Rid }}
+                    </td>
+                </tr>
+                <tr> 
+                    <th>
+                        Name
+                    </th>
+                    <td>
+                        {{ $item.Name }}
+                    </td>
+                </tr>
+                <tr> 
+                    <th>
+                        Sale
+                    </th>
+                    <td>
+                        {{ $item.Sale }}
+                    </td>
+                </tr>
+                <tr> 
+                    <th>
+                        Size
+                    </th>
+                    <td>
+                        {{ $item.Size }}
+                    </td>
+                </tr>
+                <tr> 
+                    <th>
+                        Total price
+                    </th>
+                    <td>
+                        {{ $item.TotalPrice }}
+                    </td>
+                </tr>
+                <tr> 
+                    <th>
+                        NM ID
+                    </th>
+                    <td>
+                        {{ $item.NmID }}
+                    </td>
+                </tr>
+                <tr> 
+                    <th>
+                        Brand
+                    </th>
+                    <td>
+                        {{ $item.Brand }}
+                    </td>
+                </tr>
+                <tr> 
+                    <th>
+                        Status
+                    </th>
+                    <td>
+                        {{ $item.Status }}
+                    </td>
+                </tr>
+            </table> 
+            {{end}}    
+                   
+        </table>        
+    </div>
+</body>
+</html>

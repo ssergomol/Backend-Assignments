@@ -3,6 +3,8 @@ package database
 import (
 	"backend-assignments/l0/pkg/models"
 	"log"
+
+	"github.com/sirupsen/logrus"
 )
 
 type ItemRepo struct {
@@ -23,7 +25,7 @@ func (repo *ItemRepo) Create(item models.Item) {
 func (repo *ItemRepo) GetDataByUID(order_uid string) []models.Item {
 	rows, err := repo.store.db.Query("SELECT * from item where order_uid = $1", order_uid)
 	if err != nil {
-		log.Fatal(err)
+		logrus.Fatal(err)
 	}
 	defer rows.Close()
 
@@ -33,7 +35,7 @@ func (repo *ItemRepo) GetDataByUID(order_uid string) []models.Item {
 		err := rows.Scan(&item.ChrtID, &item.OrderUID, &item.TrackNumber, &item.Price, &item.Rid, &item.Name,
 			&item.Sale, &item.Size, &item.TotalPrice, &item.NmID, &item.Brand, &item.Status)
 		if err != nil {
-			log.Fatal(err)
+			logrus.Fatal(err)
 		}
 		items = append(items, item)
 	}

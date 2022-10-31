@@ -2,7 +2,8 @@ package database
 
 import (
 	"backend-assignments/l0/pkg/models"
-	"log"
+
+	"github.com/sirupsen/logrus"
 )
 
 type PaymentRepo struct {
@@ -28,7 +29,7 @@ func (repo *PaymentRepo) GetDataByUID(order_uid string) models.Payment {
 		&payment.CustomFee,
 	)
 	if err != nil {
-		log.Fatal(err)
+		logrus.Fatal(err)
 	}
 
 	return payment

@@ -32,7 +32,7 @@ func GetOrderHandler(server *APIserver) http.HandlerFunc {
 			vars := mux.Vars(r)
 			logrus.Info(fmt.Sprintf("get order %s query", vars["order_uid"]))
 			order := server.cache[vars["order_uid"]]
-			templatePath := "pkg/templates/order.tmpl"
+			templatePath := "pkg/templates/order.html"
 
 			var err error
 			tmplt := template.New(filepath.Base(templatePath))

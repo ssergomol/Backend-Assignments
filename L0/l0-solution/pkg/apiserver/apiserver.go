@@ -51,7 +51,8 @@ func (server *APIserver) configureLogger() error {
 }
 
 func (server *APIserver) configureRouter() {
-	server.RegisterHome()
+	server.RegisterGetOrderByID()
+	server.RegisterGetAllOrders()
 }
 
 func (server *APIserver) configureDatabase() error {

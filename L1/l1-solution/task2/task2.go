@@ -33,28 +33,19 @@ func PrintScuares(arr []int) {
 		}(number)
 	}
 
-	// Дожидаемся
+	// Дожидаемся завершения всех горутин
 	wg.Wait()
 	fmt.Println()
 }
 
 func PrintOrderedSquares(arr []int) {
-	var wg sync.WaitGroup
 	squaredVals := make([]int, len(arr))
-
 	channel := make(chan Pair)
 
 	for idx, number := range arr {
 
-		// Увеличиваем количество горутин в wait группе,
-		// завершения которых нужно дождаться
-		wg.Add(1)
-
 		// Создаём горутину и запускаем в ней задачу, используя анонимную функцию
 		go func(numb int, ch chan Pair, i int) {
-			// Создаём отложенный вызов с оповещением wait группы
-			// о завершении работы горутины
-			defer wg.Done()
 
 			// Передаём пару значение - индекс в канал
 			ch <- Pair{
